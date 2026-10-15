@@ -303,3 +303,11 @@ machine remains necessary before academic sign-off.
 - `verification/preflight.log` documents why a fresh full pipeline cannot be certified in the current review environment; the original 210-row archived metrics are preserved.
 - Current framework tests excluding the external static-tool integration test pass; this does not certify the excluded test or the complete GitHub workflow.
 - Original generation-visible tests and retrospective supplementary cases must not be called independently blinded validation. More robust research would require a new prospectively separated generation/evaluation protocol with independently assessed task specifications and actual human cohorts (with approval).
+
+## Current evidence status and external validation preparation
+
+The archive has an independent index/inventory audit (`python tools/audit_repro_evidence.py`): 30 task folders, 210 unique source records and all 1,680 expected per-sample raw evidence files **present**. This checks completeness, not correctness of raw analyzer values. The full 2026-10-15/16 review environment could not install Radon, Pylint or Bandit, so a **fresh 210-row static re-extraction is not claimed**. A fail-fast `bash verify.sh` is provided for an appropriately isolated connected computer; save its actual `.status` and `.log` files before claiming reproduction.
+
+There are two prepared (not performed) validation resources: `verification/independent_review_preparation/REVIEWER_PACKET/` hides constructed source labels for a future reviewer; `verification/external_test_author_packet.zip` gives specifications but no candidate files or previous tests to a future external test writer. Neither resource constitutes completed human research or prospectively blinded testing. Prospective model-generation experiments and collection of novice/expert code require authentic new participants/model calls, suitable permissions and genuine contemporaneous records.
+
+The student must separately supply original development/supervision evidence (if it exists), their own signature and date, an accessible screencast, and reference verification; no such evidence has been fabricated.

@@ -60,3 +60,15 @@ output of every external tool call is written to `evidence/`.
 | 2026-10-15 | Full static rerun not independently executable in current environment | Added a full environment manifest and explicit preflight evidence | `python run_analysis.py --skip-figures --skip-report` exited 3, identifying missing Radon/Pylint/Bandit | Full end-to-end pipeline remains unverified |
 
 Imported-archive comparison commits, if present, are newly created change-audit commits **not** historic student development commits.
+
+## Further evidence-based review (2026-10-15 UTC / 2026-10-16 IST)
+
+| Issue / evidence gap | Genuine corrective change | Executed verification | Remaining limitation |
+|---|---|---|---|
+| Archive traceability was asserted without machine-checked source/evidence coverage | Added `tools/audit_repro_evidence.py` and two regression checks; checks task/source/sample uniqueness, source SHA-256 and all 1,680 expected task-level raw evidence files | `python tools/audit_repro_evidence.py`: PASS, 30 tasks/210 rows/0 missing expected evidence; `pytest -q tests/ -k 'not test_metric_extraction_on_sample'`: 33 passed | Verifies archived data structure, not fresh Radon/Pylint/Bandit execution or statistical construct validity |
+| Blind human-baseline review and external tests not ready to commission | Added unlabelled 60-stimulus `verification/independent_review_preparation/REVIEWER_PACKET/`, private coding key, empty reviewer form, and spec-only `verification/external_test_author_packet.zip` | Packet-generation tools executed; all 60 anonymous stimuli prepared; 30 task specs included | No actual reviewers, human-authored novice/expert solutions, externally written tests, or prospective model samples collected |
+| `verify.sh` could report completion despite failed pip install/tests | Replaced permissive script with fail-fast gated install, framework tests, quality gates, end-to-end pipeline and explicit PASS/FAIL status record | `bash -n verify.sh`: PASS; dry preflight `python run_analysis.py --skip-figures --skip-report`: EXIT 3 (missing Radon, Pylint, Bandit) | Clean full pipeline still requires tool installation on a connected/appropriately isolated computer |
+| Earlier original-test repeat attempt was incomplete | Preserved the original partial log and recorded the later attempt without calling it a successful rerun | Two attempts reached 60/210 before execution window stopped | No 210/210 original-suite rerun evidence is claimed |
+| Dissertation still needed audit-method provenance and reviewer-readiness linkage | Qualified methodology, Chapter 4 and Appendix B/C; generated separate verification/action and prospective protocol documents | Document rendered and visually checked (64 dissertation pages and 2 pages each for verification and protocol) | Student-signed declaration, actual screencast, authentic provider logs and original Git history still missing |
+
+Current generated audit commits reflect new review corrections only. They do not evidence the original student development timeline. No retrospective human-participant results or hidden test scores were manufactured.
