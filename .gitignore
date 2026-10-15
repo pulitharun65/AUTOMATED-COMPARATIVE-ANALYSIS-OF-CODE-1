@@ -1,0 +1,16 @@
+# Virtual environments
+venv/
+.venv/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# OS / editor cruft
+.DS_Store
+*.swp
+
+# NOTE: outputs/, figures/, report/ and evidence/ are deliverables and ARE
+# tracked on purpose — do not ignore them.
