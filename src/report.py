@@ -370,7 +370,7 @@ def _statistical_analysis(stats_blob: dict) -> list:
         ("p", "Unbiased pass@k averaged over tasks. pass@k is only defined for "
               "k <= the number of samples, so single-sample sources show N/A beyond "
               "pass@1; the LLM arm is sampled multiple times per task, giving a "
-              "genuine multi-sample estimate rather than pass@1."),
+              "descriptive multi-sample estimate rather than pass@1 (independence unverified)."),
         ("table", pak_headers, pak_rows),
     ]
 
@@ -512,7 +512,7 @@ def _limitations() -> list:
         ("h2", "7. Limitations"),
         ("bullets", [
             "**Curated benchmark.** The beginner and expert solutions were authored "
-            "to typify each source and the LLM solutions are genuine model output; "
+            "to typify each source and the LLM solutions are archived model-labelled files without authenticated generation logs; "
             "none are sampled from real populations. Findings describe this "
             "benchmark only and do not generalise. The monotonic decline in the "
             "beginner pass rate across tiers shows that the pipeline can *detect* "

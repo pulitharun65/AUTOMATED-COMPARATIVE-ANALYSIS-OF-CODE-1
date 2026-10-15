@@ -114,7 +114,14 @@ def run_one(task, source: str, sample: int = 1) -> dict[str, Any]:
         result["tests_total"] = total
         result["run_seconds"] = round(elapsed, 4)
         # functional_pass: every collected test passed and at least one ran.
-        result["functional_pass"] = bool(total > 0 and failed == 0 and counts["skipped"] == 0)
+        result["functional_pass"] = bool(
+            proc.returncode == 0 and total > 0 and failed == 0
+            and counts["skipped"] == 0
+        )
+        if proc.returncode not in (0, 1):
+            result["reason"] = f"pytest runner status {proc.returncode} (not a scored test failure)"
+        elif proc.returncode == 1 and failed == 0:
+            result["reason"] = "pytest exited nonzero without a parsed failing test"
         if total == 0:
             result["reason"] = "no tests collected (possible import/collection error)"
         utils.save_evidence(f"{task.task_id}__{label}_pytest.txt", stdout)

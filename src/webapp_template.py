@@ -121,7 +121,7 @@ TEMPLATE = r"""<!DOCTYPE html>
   <section id="overview" class="active">
     <h2 class="sec">Overview</h2>
     <div class="banner"><b>Honest framing.</b> Curated benchmark of {{ kpis.n_tasks }} tasks. The beginner and
-      expert solutions are single authored references typifying each source; the LLM solutions are genuine
+      expert solutions are single authored references typifying each source; the LLM solutions are labelled as model-generated; original service receipts are unavailable
       current-model samples ({{ kpis.llm_samples }} per task) — none are scraped from real people. Beginner
       edge-case failures on harder tasks are the intended experimental signal, demonstrating that the pipeline
       can detect such differences; they are not a claim about real beginners. Results describe this benchmark only.</div>
@@ -265,7 +265,7 @@ TEMPLATE = r"""<!DOCTYPE html>
     <h3>RQ2 — Functional pass@k (Chen et al. 2021)</h3>
     <p class="lead">Unbiased pass@k averaged over tasks. Only defined for k &le; the number of samples, so
       single-sample sources show N/A beyond pass@1; the LLM arm ({{ kpis.llm_samples }} samples per task) yields a
-      genuine multi-sample estimate.</p>
+      descriptive multi-sample estimate (model independence unverified).</p>
     <table>
       <thead><tr><th class="no-sort">Source</th><th class="no-sort num">samples/task</th>{% for k in pass_at_k_ks %}<th class="no-sort num">pass@{{ k }}</th>{% endfor %}</tr></thead>
       <tbody>

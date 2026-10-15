@@ -88,7 +88,7 @@ def main(argv: list[str] | None = None) -> int:
     log.info("Dataset OK: %d tasks  %s", len(tasks), counts)
 
     # 2. Correctness ----------------------------------------------------------
-    utils.banner("Stage 2/6 — Functional correctness (subprocess pytest (not a security sandbox)", log)
+    utils.banner("Stage 2/6 — Functional correctness (subprocess pytest; not sandboxed)", log)
     correctness_rows = correctness.run_all(tasks)
 
     # 3. Metrics --------------------------------------------------------------

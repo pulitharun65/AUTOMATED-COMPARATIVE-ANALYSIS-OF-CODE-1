@@ -48,3 +48,15 @@ output of every external tool call is written to `evidence/`.
   because dependencies are unavailable. No existing raw static evidence was
   overwritten.
 - No claim of passing full CI or publishing a changed online GitHub repository.
+
+## Further corrections performed on 2026-10-15 (current revision, not original development)
+
+| Date | Issue | Change | Verification | Limitation |
+|---|---|---|---|---|
+| 2026-10-15 | Constructed-human baseline evidence overstated | Added all-60 AST structural audit, honest reviewer form and dissertation construct-validity warning | `python tools/audit_baselines.py`; 60/60 parsed, hashes stored; 30/30 framework tests not needing static tools passed | Automated descriptors do not authenticate skill labels |
+| 2026-10-15 | Tool-generated report and documentation overclaim model provenance | Qualified statements in README, provenance, generated reports, dashboard, abstract and results | Cross-file terms inspected; 64-page DOCX rendered | Original provider transactions unavailable |
+| 2026-10-15 | Runner might mis-score a nonzero pytest exit with a misleading passing summary | `functional_pass` now requires pytest exit code 0; nonstandard exit records reason | Framework tests and compile checks passed | No fresh all-210 archived pytest completion claimed |
+| 2026-10-15 | Stale Table of Contents, figure/table pages and incomplete screencast | Refreshed displayed page references; retained student-completion marker | Rendered 64 pages for visual review | Signature, genuine screencast, original supervisory commits still absent |
+| 2026-10-15 | Full static rerun not independently executable in current environment | Added a full environment manifest and explicit preflight evidence | `python run_analysis.py --skip-figures --skip-report` exited 3, identifying missing Radon/Pylint/Bandit | Full end-to-end pipeline remains unverified |
+
+Imported-archive comparison commits, if present, are newly created change-audit commits **not** historic student development commits.

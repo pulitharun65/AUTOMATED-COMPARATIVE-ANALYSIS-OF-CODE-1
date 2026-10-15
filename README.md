@@ -93,10 +93,10 @@ commands above; `make run` → `python run_analysis.py`; `make test` →
   bare `try/except: pass`) that security scanners flag.
 - **expert** — idiomatic, decomposed, fully type-hinted and documented, low
   complexity, handles every edge case, clean, no security flags.
-- **llm** — **model-labelled archived output** (reported as Claude Opus 4.8), 5 independent
+- **llm** — **model-labelled archived output** (reported as Claude Opus 4.8), 5 archived
   samples per task: correct and readable but typically verbose and defensive
   (extra comments, redundant checks, slightly higher Halstead volume); passes
-  most/all tests. The five samples vary by design, so `pass@k` (k>1) is real and
+  most/all tests. The five labelled samples vary, so a descriptive `pass@k` (k>1) can be calculated and
   the LLM arm shows within-source variance. See `dataset/LLM_PROVENANCE.md`.
 
 ## Project layout
@@ -110,7 +110,7 @@ tharun-project/
   src/                   # correctness, metrics, statistics, visualize, report,
                          #   webapp (+ template), utils, dataset_loader, ...
   dataset/tasks/<id>/    # meta.json, solutions/{beginner,expert}.py +
-                         #   solutions/llm/sample_1..5.py (genuine model samples),
+                         #   solutions/llm/sample_1..5.py (model-labelled; provider logs not supplied),
                          #   solutions/llm_curated_reference.py, tests/
   dataset/LLM_PROVENANCE.md   # model, prompt, date for the LLM samples
   outputs/ figures/ report/ evidence/    # deliverables (tracked)
@@ -166,7 +166,7 @@ depends on it.)
 - **pylint** → style score (/10) and issue count.
 - **bandit** → security findings by severity.
 - **pytest** → functional correctness in separate temporary subprocesses (not a security sandbox); the `pass@k`
-  estimator (Chen et al. 2021) is genuine for the LLM arm (5 samples per task, so
+  estimator (Chen et al. 2021) is computable descriptively for the LLM-labelled arm (5 samples per task, so
   pass@1 and pass@5 are both reported); the single-sample human arms report pass@1.
 - **scipy** → Shapiro-Wilk (diagnostic), Friedman matched-task omnibus, paired Wilcoxon with within-metric
   Bonferroni adjustments, paired rank-biserial effect size, Cochran Q and
@@ -228,7 +228,7 @@ table, the statistics, each figure, the HTML report, and the framework tests).
 ## Optional extensions (off by default, never required)
 
 - **Regenerate the LLM solutions from a live API** — the committed LLM samples are
-  already genuine model output (see `dataset/LLM_PROVENANCE.md`).
+  labelled as model output (not independently authenticated) (see `dataset/LLM_PROVENANCE.md`).
   `src/regenerate_llm.py` can refresh them from a live API, but only does anything
   when the `LLM_API_KEY` environment variable is set; the core pipeline never calls
   it and works fully offline. See the file's docstring.
@@ -294,3 +294,12 @@ file-size limits to subprocesses; this is **not a security sandbox** and does
 not block network activity or filesystem access. Use Docker/VM isolation before
 introducing untrusted code. A successful complete pipeline rerun on the target
 machine remains necessary before academic sign-off.
+
+
+## 2026-10-15 research-integrity audit addendum
+
+- `python tools/audit_baselines.py` produces inspectable structural metrics and hashes for the 60 constructed reference files (`verification/`). This is not a blind human review. In this dataset, all 30 expert references and no beginner references have entry-point docstrings and return annotations; the labels were intentionally engineered, creating design-induced separation.
+- The baseline/reviewer protocol in `verification/INDEPENDENT_REVIEW_FORM.md` is **blank** pending a real assessor. Do not claim its completion.
+- `verification/preflight.log` documents why a fresh full pipeline cannot be certified in the current review environment; the original 210-row archived metrics are preserved.
+- Current framework tests excluding the external static-tool integration test pass; this does not certify the excluded test or the complete GitHub workflow.
+- Original generation-visible tests and retrospective supplementary cases must not be called independently blinded validation. More robust research would require a new prospectively separated generation/evaluation protocol with independently assessed task specifications and actual human cohorts (with approval).
