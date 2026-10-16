@@ -27,12 +27,11 @@ from src import utils
 
 _log = utils.get_logger
 
-# Resolve the tool executables from the active interpreter's directory so we use
-# the venv copies whether or not it is "activated".
-_BIN = Path(__import__("sys").executable).parent
-RADON = str(_BIN / "radon")
-PYLINT = str(_BIN / "pylint")
-BANDIT = str(_BIN / "bandit")
+# Resolve platform-appropriate CLI names from the active Python environment.
+# Windows venv entry points have .exe suffixes; POSIX venv commands do not.
+RADON = utils.analysis_tool_path("radon")
+PYLINT = utils.analysis_tool_path("pylint")
+BANDIT = utils.analysis_tool_path("bandit")
 
 _SCORE_RE = re.compile(r"rated at (-?\d+\.\d+)/10")
 

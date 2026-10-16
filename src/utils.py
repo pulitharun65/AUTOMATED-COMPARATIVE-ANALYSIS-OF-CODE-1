@@ -266,6 +266,19 @@ def tool_version(executable: Sequence[str]) -> str:
     return out.splitlines()[0] if out else "N/A"
 
 
+def analysis_tool_path(name: str, *, on_windows: bool | None = None) -> str:
+    """Return the CLI executable in this interpreter's environment.
+
+    Windows virtual environments use Scripts/<name>.exe, whereas POSIX
+    environments use bin/<name> without an extension. Keeping the paths
+    interpreter-local prevents accidental use of a global tool version.
+    """
+    if on_windows is None:
+        on_windows = sys.platform.startswith("win")
+    suffix = ".exe" if on_windows else ""
+    return str(Path(sys.executable).parent / (name + suffix))
+
+
 def check_tools(logger: logging.Logger | None = None) -> dict[str, str]:
     """Preflight: report the version of each external analysis tool.
 
@@ -277,10 +290,9 @@ def check_tools(logger: logging.Logger | None = None) -> dict[str, str]:
         Mapping of tool name to its version string ("N/A" if unavailable).
     """
     logger = logger or get_logger()
-    bin_dir = Path(sys.executable).parent
     versions: dict[str, str] = {}
     for tool in ("radon", "pylint", "bandit"):
-        version = tool_version([str(bin_dir / tool)])
+        version = tool_version([analysis_tool_path(tool)])
         versions[tool] = version
         if version == "N/A":
             logger.warning("  preflight: %-7s NOT FOUND — metrics from it will be N/A", tool)
