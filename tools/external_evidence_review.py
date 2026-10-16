@@ -85,6 +85,21 @@ def read_reviewer(number: int, expected: set[tuple[str, str]]) -> tuple[dict, di
             if colon: fields[key.strip().lower()] = value.strip()
         for required in ('reviewer_identifier', 'review_date_utc', 'qualification', 'confirms_blind_to_key', 'confirms_independent_ratings', 'signature'):
             if not fields.get(required): result['problems'].append(f'Attestation field missing: {required}')
+        for fld in ('reviewer_identifier','qualification','signature'):
+            supplied = fields.get(fld,'')
+            if supplied and (supplied.strip().lower() in ('todo','n/a','none','example','student','reviewer','your name')
+                             or not any(ch.isalnum() for ch in supplied)):
+                result['problems'].append(f'Attestation placeholder is not accepted: {fld}')
+        if fields.get('review_date_utc'):
+            try:
+                date_text = fields['review_date_utc']
+                parsed = datetime.fromisoformat(date_text.replace('Z','+00:00'))
+                if parsed.tzinfo is None:
+                    raise ValueError('UTC offset is required')
+                if parsed.astimezone(timezone.utc) > datetime.now(timezone.utc):
+                    raise ValueError('future review date')
+            except ValueError as exc:
+                result['problems'].append(f'Invalid review_date_utc: {exc}')
         for confirm in ('confirms_blind_to_key', 'confirms_independent_ratings'):
             if fields.get(confirm, '').lower() not in ('yes', 'true'):
                 result['problems'].append(f'Attestation must explicitly confirm YES: {confirm}')

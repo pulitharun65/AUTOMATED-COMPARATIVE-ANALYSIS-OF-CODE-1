@@ -48,16 +48,16 @@ function Invoke-Checked {
 }
 
 function Locate-Python {
-    foreach ($p in @(@{exe='py'; a=@('-3.11')}, @{exe='py';a=@('-3')}, @{exe='python';a=@()})) {
+    foreach ($p in @(@{exe='py'; a=@('-3.11')}, @{exe='python';a=@()})) {
         $command = Get-Command $p.exe -ErrorAction SilentlyContinue
         if ($null -eq $command) { continue }
         try {
-            $args = @($p.a) + @('-c', 'import sys; assert sys.version_info >= (3, 10); print(sys.version)')
+            $args = @($p.a) + @('-c', 'import sys; assert sys.version_info[:2] == (3, 11); print(sys.version)')
             $out = & $p.exe @args 2>$null
             if ($LASTEXITCODE -eq 0) { return $p }
         } catch { }
     }
-    throw 'Python 3.10+ was not detected. Install Python 3.11 (64-bit) from python.org, then reopen PowerShell.'
+    throw 'Python 3.11 was not detected. Install Python 3.11 (64-bit) from python.org, then reopen PowerShell.'
 }
 
 try {
@@ -113,12 +113,16 @@ try {
     }
     Invoke-Checked '06_archive_integrity' $VenvPython @('tools/audit_repro_evidence.py') $Workspace
     Invoke-Checked '07_source_manifest' $VenvPython @('tools/provenance_inventory.py') $Workspace
+    Invoke-Checked '07b_archived_stats_independent_check' $VenvPython @('tools/archive_scientific_crosscheck.py') $Workspace
+    Copy-Item (Join-Path $Workspace 'verification\archived_scientific_crosscheck.json') (Join-Path $Logs 'original_stats_independent_check.json') -Force
     Invoke-Checked '08_all_framework_tests' $VenvPython @('-m','pytest','tests/','-q') $Workspace
     Invoke-Checked '09_pylint_quality_gate' $VenvPython @('-m','pylint','--fail-under=10.0','src/','run_analysis.py','config.py') $Workspace
     Invoke-Checked '10_bandit_quality_gate' $VenvPython @('-m','bandit','-q','-c','pyproject.toml','-r','src/','run_analysis.py','config.py') $Workspace
     # The core analysis reruns all 210 functional cases and Radon/Pylint/Bandit metrics.
     Invoke-Checked '11_complete_analysis' $VenvPython @('run_analysis.py','--verbose') $Workspace
     Invoke-Checked '12_validate_new_outputs' $VenvPython @('tools/windows_review_summary.py') $Workspace
+    Invoke-Checked '12b_fresh_stats_independent_check' $VenvPython @('tools/archive_scientific_crosscheck.py') $Workspace
+    Copy-Item (Join-Path $Workspace 'verification\archived_scientific_crosscheck.json') (Join-Path $RunDir 'fresh_stats_independent_check.json') -Force
     Copy-Item (Join-Path $Workspace 'verification\windows_review_summary.json') (Join-Path $RunDir 'windows_review_summary.json') -Force
     # Record status of genuinely external requirements; missing reviewers remain PENDING.
     Invoke-Checked '13_iteration_history_inventory' $VenvPython @('tools/iteration_evidence_audit.py') $Workspace
@@ -132,7 +136,7 @@ try {
     Write-Host ('The FAILED run and all available evidence are saved at: ' + $RunDir)
 } finally {
     $metadata = [ordered]@{
-      status=$Status; utc_started=$StartTime; utc_finished=(Get-Date).ToUniversalTime().ToString('o')
+      status=$Status; technical_verification_only=$true; utc_started=$StartTime; utc_finished=(Get-Date).ToUniversalTime().ToString('o')
       project_path=$Root; results_path=$RunDir; failed_step=($(if ($Status -eq 'PASS') { $null } else { $CurrentStep }))
       error=$Failure; steps=@($StepRecords.ToArray())
       disclaimer='PASS proves this copy of the historical benchmark ran on this machine. It does not authenticate original LLM identity, blinded tests, actual human participants, or historical student development.'
@@ -145,7 +149,8 @@ try {
       ('Completed UTC: ' + (Get-Date).ToUniversalTime().ToString('o'))
       ('Failure if any: ' + $Failure)
       'Read WINDOWS_STATUS.json and logs/ for exact evidence.'
-      'If PASS, read windows_review_summary.json and workspace/outputs/stats.md.'
+      'If PASS, read windows_review_summary.json, fresh_stats_independent_check.json and workspace/outputs/stats.md.'
+      'A static_metric_drift_count greater than zero requires manual dissertation reconciliation.'
       'Outputs are under workspace/outputs, workspace/report, workspace/figures, workspace/evidence.'
       'Original Project_Files outputs and evidence are untouched.'
       'External independent reviewer assessments and original API records remain separate tasks. Read workspace/verification/evidence_completion_status.json.'

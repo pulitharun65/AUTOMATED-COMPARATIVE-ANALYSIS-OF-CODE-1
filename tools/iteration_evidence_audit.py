@@ -27,13 +27,18 @@ def main():
             sha, date, author, email, subject = parts
             # This is classification by declared author metadata only, NOT identity authentication.
             audit_authored = 'review' in (author + ' ' + email).lower() or 'assistant' in (author + ' ' + subject).lower()
+            paths_raw = git('diff-tree','--no-commit-id','--name-only','-r','--root',sha) or ''
+            paths = [p for p in paths_raw.splitlines() if p.strip()]
             commits.append({'sha':sha, 'recorded_author_date':date, 'recorded_author':author,
-                            'subject':subject, 'review_period_or_ai_assisted':audit_authored})
+                            'subject':subject, 'review_period_or_ai_assisted':audit_authored,
+                            'changed_file_count':len(paths), 'changed_files':paths[:100],
+                            'file_list_truncated':len(paths)>100})
     report = {
         'generated_utc': datetime.now(timezone.utc).isoformat(),
         'commit_count':len(commits), 'commits':commits,
         'source_git_available':log is not None,
         'verified_original_student_development_history':False,
+        'note':'Changed-file lists are genuine Git diff inventories; links from an issue to a retest still require contemporaneous records.',
         'supervision_evidence_folder':str(ROOT / 'verification/external_results/development_history'),
         'external_history_evidence_files':[str(p.relative_to(ROOT)) for p in sorted(
             (ROOT / 'verification/external_results/development_history').glob('*'))

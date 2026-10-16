@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install exact dependencies from requirements file
+      - name: Install dependencies from lower-bound requirements; archive resolved versions
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
@@ -36,6 +36,8 @@ jobs:
         run: |
           python tools/provenance_inventory.py
           python tools/audit_repro_evidence.py
+      - name: Independently crosscheck archived matched-task statistics
+        run: python tools/archive_scientific_crosscheck.py
       - name: Execute every framework test, including static-tool integration
         run: python -m pytest tests/ -q > verification/ci_full_tests.log 2>&1
       - name: Fresh Radon, Pylint, Bandit and full end-to-end run
@@ -70,6 +72,8 @@ jobs:
               assert Path(file).is_file(), f'Missing {file}'
           print('Fresh run verified: complete 210-row metrics and report outputs')
           PY
+      - name: Independently crosscheck freshly regenerated statistics
+        run: python tools/archive_scientific_crosscheck.py
       - name: Hash final evidence
         if: always()
         run: |
@@ -86,6 +90,7 @@ jobs:
             verification/ci_*
             verification/provenance_inventory.json
             verification/archived_integrity_audit.json
+            verification/archived_scientific_crosscheck.json
             outputs/
             report/
             figures/

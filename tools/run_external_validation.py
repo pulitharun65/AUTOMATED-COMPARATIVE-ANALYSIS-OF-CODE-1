@@ -53,6 +53,15 @@ def check() -> tuple[dict, dict | None]:
             report['errors'].append(f'Missing frozen manifest field: {field}')
     if str(manifest.get('specifications_only_attestation', '')).strip().lower() not in ('yes', 'true', 'i confirm'):
         report['errors'].append('specifications_only_attestation must explicitly confirm YES')
+    if manifest.get('frozen_at_utc'):
+        try:
+            frozen = datetime.fromisoformat(str(manifest['frozen_at_utc']).replace('Z', '+00:00'))
+            if frozen.tzinfo is None:
+                raise ValueError('timezone offset is required')
+            if frozen.astimezone(timezone.utc) > datetime.now(timezone.utc):
+                raise ValueError('freeze date cannot be in the future')
+        except ValueError as exc:
+            report['errors'].append(f'Invalid frozen_at_utc: {exc}')
     tasks = {p.name for p in TASK_ROOT.iterdir() if p.is_dir()}
     if not isinstance(cases, dict) or set(cases) != tasks:
         report['errors'].append('Expected test cases for exactly all 30 known task IDs')
