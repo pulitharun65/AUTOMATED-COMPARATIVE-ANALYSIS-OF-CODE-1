@@ -72,3 +72,17 @@ Imported-archive comparison commits, if present, are newly created change-audit 
 | Dissertation still needed audit-method provenance and reviewer-readiness linkage | Qualified methodology, Chapter 4 and Appendix B/C; generated separate verification/action and prospective protocol documents | Document rendered and visually checked (64 dissertation pages and 2 pages each for verification and protocol) | Student-signed declaration, actual screencast, authentic provider logs and original Git history still missing |
 
 Current generated audit commits reflect new review corrections only. They do not evidence the original student development timeline. No retrospective human-participant results or hidden test scores were manufactured.
+
+## 2026-10-16 — Fresh visible-test replication and provenance audit (assistant-assisted review)
+
+- **Issue:** the archived functional pass rates were not independently rerun over all 210 submitted implementations.
+  **Change:** executed `tools/verify_archived_tests.py` on the archived task tests in fresh subprocesses; saved per-sample exit codes, SHA-256 code fingerprints and mismatch comparison in `verification/fresh_visible_test_rerun.csv` and `_summary.json`.
+  **Retest:** 210 completed, 193 passed and 17 expected beginner-style failures; 0 runner errors and 0 mismatches to the original dataset. Not blind validation.
+- **Issue:** archived code source identity and the claimed model provider were conflated.
+  **Change:** added `tools/provenance_inventory.py` and regression tests; recorded complete byte-level source manifests. Explicitly marked original model identity, date and sample independence as **unverified**.
+- **Issue:** a new authenticated model experiment lacked a safe receipt-collection pathway.
+  **Change:** added opt-in `tools/collect_new_model_evidence.py` that writes provider response receipts for **new** calls into a separate folder; dry-run tested, no new API requests made.
+- **Issue:** unavailable package installation prevented a complete fresh static analysis.
+  **Change:** added GitHub Actions workflow `.github/workflows/independent-full-verification.yml` to install packages and run framework tests, Radon/Pylint/Bandit and all 210 tasks, then publish run logs. **Workflow not triggered or remotely verified in this review.**
+- **Local verification:** 38 applicable framework tests passed. The external analysis-tool integration remains unverified; preflight correctly exited 3 on unavailable Radon, Pylint and Bandit.
+- **Integrity:** no original model-response receipts, external participant ratings or historical student commits were fabricated. The review commits and test executions represent new current-dated corrections only.
