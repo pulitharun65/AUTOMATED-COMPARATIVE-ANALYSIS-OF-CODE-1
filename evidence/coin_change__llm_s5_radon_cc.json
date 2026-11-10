@@ -1,0 +1,1 @@
+{"D:\\1 MEGAMINDS\\Roehmpton\\Tharun\\Project_Files\\dataset\\tasks\\coin_change\\solutions\\llm\\sample_5.py": [{"type": "function", "rank": "A", "col_offset": 0, "complexity": 2, "lineno": 4, "endline": 25, "name": "coin_change", "closures": [{"type": "function", "rank": "B", "col_offset": 4, "complexity": 7, "lineno": 13, "endline": 23, "name": "solve", "closures": []}]}]}

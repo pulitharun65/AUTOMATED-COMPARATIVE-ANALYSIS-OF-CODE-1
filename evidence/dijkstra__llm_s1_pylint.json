@@ -1,0 +1,15 @@
+[
+    {
+        "type": "warning",
+        "module": "sample_1",
+        "obj": "",
+        "line": 2,
+        "column": 0,
+        "endLine": 2,
+        "endColumn": 33,
+        "path": "dataset\\tasks\\dijkstra\\solutions\\llm\\sample_1.py",
+        "symbol": "deprecated-class",
+        "message": "Using deprecated class Hashable of module typing",
+        "message-id": "W4904"
+    }
+]

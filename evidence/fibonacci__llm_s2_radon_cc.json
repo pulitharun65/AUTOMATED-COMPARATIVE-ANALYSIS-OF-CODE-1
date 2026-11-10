@@ -1,0 +1,1 @@
+{"D:\\1 MEGAMINDS\\Roehmpton\\Tharun\\Project_Files\\dataset\\tasks\\fibonacci\\solutions\\llm\\sample_2.py": [{"type": "function", "rank": "A", "complexity": 2, "endline": 8, "col_offset": 0, "name": "_fib", "lineno": 5, "closures": []}, {"type": "function", "rank": "A", "complexity": 2, "endline": 19, "col_offset": 0, "name": "fibonacci", "lineno": 11, "closures": []}]}

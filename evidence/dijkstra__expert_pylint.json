@@ -1,0 +1,15 @@
+[
+    {
+        "type": "warning",
+        "module": "expert",
+        "obj": "",
+        "line": 5,
+        "column": 0,
+        "endLine": 5,
+        "endColumn": 42,
+        "path": "dataset\\tasks\\dijkstra\\solutions\\expert.py",
+        "symbol": "deprecated-class",
+        "message": "Using deprecated class Hashable of module typing",
+        "message-id": "W4904"
+    }
+]

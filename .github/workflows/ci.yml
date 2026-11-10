@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Framework unit tests
+        run: pytest tests/ -q
+
+      - name: Lint the framework (pylint — the tool dogfoods itself)
+        run: pylint src/ run_analysis.py config.py --fail-under=10
+
+      - name: Security scan the framework (bandit — dogfoods itself)
+        run: bandit -c pyproject.toml -r src/ run_analysis.py config.py -q
+
+      - name: End-to-end pipeline smoke test
+        run: python run_analysis.py --verbose
+
+      - name: Verify all expected artifacts exist
+        run: |
+          python - <<'PY'
+          import sys, pathlib
+          required = [
+              "outputs/metrics.csv", "outputs/metrics.json",
+              "outputs/stats.json", "outputs/stats.md",
+              "figures/radar_overall.png", "figures/passrate_by_difficulty.png",
+              "report/report.md", "report/report.html", "report/dashboard.html",
+          ]
+          missing = [p for p in required if not pathlib.Path(p).exists()]
+          if missing:
+              print("MISSING:", missing); sys.exit(1)
+          print("All artifacts present.")
+          PY
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis-outputs-py${{ matrix.python-version }}
+          path: |
+            outputs/
+            figures/
+            report/
+          if-no-files-found: ignore

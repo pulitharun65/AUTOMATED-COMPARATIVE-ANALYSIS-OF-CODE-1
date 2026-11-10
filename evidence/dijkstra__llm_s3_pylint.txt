@@ -1,0 +1,6 @@
+************* Module sample_3
+dataset\tasks\dijkstra\solutions\llm\sample_3.py:2:0: W4904: Using deprecated class Hashable of module typing (deprecated-class)
+
+-----------------------------------
+Your code has been rated at 9.41/10
+

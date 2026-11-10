@@ -1,0 +1,1 @@
+{"D:\\1 MEGAMINDS\\Roehmpton\\Tharun\\Project_Files\\dataset\\tasks\\fizzbuzz\\solutions\\llm\\sample_5.py": [{"type": "function", "rank": "B", "col_offset": 0, "lineno": 4, "endline": 14, "complexity": 6, "name": "_generate", "closures": []}, {"type": "function", "rank": "A", "col_offset": 0, "lineno": 17, "endline": 23, "complexity": 1, "name": "fizzbuzz", "closures": []}]}

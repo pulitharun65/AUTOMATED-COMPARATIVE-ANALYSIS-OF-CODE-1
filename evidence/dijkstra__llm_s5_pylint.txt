@@ -1,0 +1,7 @@
+************* Module sample_5
+dataset\tasks\dijkstra\solutions\llm\sample_5.py:2:0: W4904: Using deprecated class Hashable of module typing (deprecated-class)
+dataset\tasks\dijkstra\solutions\llm\sample_5.py:9:11: W0613: Unused argument 'node' (unused-argument)
+
+-----------------------------------
+Your code has been rated at 8.95/10
+

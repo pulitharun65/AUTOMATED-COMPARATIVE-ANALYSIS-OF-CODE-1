@@ -1,0 +1,6 @@
+************* Module expert
+dataset\tasks\dijkstra\solutions\expert.py:5:0: W4904: Using deprecated class Hashable of module typing (deprecated-class)
+
+-----------------------------------
+Your code has been rated at 9.41/10
+

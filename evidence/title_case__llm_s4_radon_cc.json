@@ -1,0 +1,1 @@
+{"D:\\1 MEGAMINDS\\Roehmpton\\Tharun\\Project_Files\\dataset\\tasks\\title_case\\solutions\\llm\\sample_4.py": [{"type": "function", "rank": "A", "name": "title_case", "col_offset": 0, "lineno": 4, "endline": 16, "complexity": 1, "closures": [{"type": "function", "rank": "A", "name": "_capitalise", "col_offset": 4, "lineno": 12, "endline": 14, "complexity": 1, "closures": []}]}]}

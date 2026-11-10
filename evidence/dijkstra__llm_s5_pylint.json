@@ -1,0 +1,28 @@
+[
+    {
+        "type": "warning",
+        "module": "sample_5",
+        "obj": "",
+        "line": 2,
+        "column": 0,
+        "endLine": 2,
+        "endColumn": 46,
+        "path": "dataset\\tasks\\dijkstra\\solutions\\llm\\sample_5.py",
+        "symbol": "deprecated-class",
+        "message": "Using deprecated class Hashable of module typing",
+        "message-id": "W4904"
+    },
+    {
+        "type": "warning",
+        "module": "sample_5",
+        "obj": "_relax",
+        "line": 9,
+        "column": 11,
+        "endLine": 9,
+        "endColumn": 25,
+        "path": "dataset\\tasks\\dijkstra\\solutions\\llm\\sample_5.py",
+        "symbol": "unused-argument",
+        "message": "Unused argument 'node'",
+        "message-id": "W0613"
+    }
+]
